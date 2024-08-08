@@ -17,6 +17,7 @@ int main() {
     int result = printColorMap();
     assert(result == 25);
     
+      assert(result == 20);
     printf("All is well (maybe!)\n");
     return 0;
 }
