@@ -1,19 +1,22 @@
 #include <stdio.h>
 #include <assert.h>
 
+// Failure count and function pointer
 static int alertFailureCount = 0;
 static int (*networkAlertFunction)(float) = NULL;
 
+// Default stub implementation
 int networkAlertStub(float celcius) {
     printf("ALERT: Temperature is %.1f Celsius.\n", celcius);
-    // Stub always succeeds and returns 200
-    return 200;
+    return 200; // Always succeed
 }
 
+// Set the function pointer
 void setNetworkAlertFunction(int (*func)(float)) {
     networkAlertFunction = func;
 }
 
+// Convert Fahrenheit to Celsius and alert
 void alertInCelcius(float farenheit) {
     float celcius = (farenheit - 32) * 5 / 9;
     int returnCode = networkAlertFunction(celcius);
@@ -23,7 +26,7 @@ void alertInCelcius(float farenheit) {
     }
 }
 
-// Function to reset the alert failure count, for testing purposes
+// Reset the alert failure count, for testing purposes
 void resetAlertFailureCount() {
     alertFailureCount = 0;
 }
