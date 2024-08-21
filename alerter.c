@@ -31,31 +31,38 @@ void resetAlertFailureCount() {
     alertFailureCount = 0;
 }
 
+// Test case functions
+int simulateFailureBelowZero(float celcius) {
+    return celcius < 0 ? 500 : 200; // Fail if temperature is below 0 Celsius
+}
+
+int alwaysSucceed(float celcius) {
+    return 200; // Always succeed
+}
+
+int alwaysFail(float celcius) {
+    return 500; // Always fail
+}
+
 // Test cases
 void runTests() {
     // Test 1: Check failure counting
     resetAlertFailureCount();
-    setNetworkAlertFunction([](float celcius) {
-        return celcius < 0 ? 500 : 200; // Fail if temperature is below 0 Celsius
-    });
+    setNetworkAlertFunction(simulateFailureBelowZero);
     alertInCelcius(30.0); // 30F -> -1.1C -> Should fail
     alertInCelcius(50.0); // 50F -> 10.0C -> Should not fail
     assert(alertFailureCount == 1); // Expected 1 failure
 
     // Test 2: Check no failures
     resetAlertFailureCount();
-    setNetworkAlertFunction([](float celcius) {
-        return 200; // Always succeed
-    });
+    setNetworkAlertFunction(alwaysSucceed);
     alertInCelcius(100.0); // 100F -> 37.8C -> Should not fail
     alertInCelcius(0.0); // 0F -> -17.8C -> Should not fail
     assert(alertFailureCount == 0); // Expected 0 failures
 
     // Test 3: Check all failures
     resetAlertFailureCount();
-    setNetworkAlertFunction([](float celcius) {
-        return 500; // Always fail
-    });
+    setNetworkAlertFunction(alwaysFail);
     alertInCelcius(400.5); // 400.5F -> 204.7C -> Should fail
     alertInCelcius(303.6); // 303.6F -> 151.0C -> Should fail
     alertInCelcius(504.6); // 504.6F -> 263.7C -> Should fail
