@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
 
 // Function to print the color map
 int printColorMap() {
@@ -21,11 +22,11 @@ int main() {
     // Failing test case
     const char* expectedMajorColor = "White";
     const char* expectedMinorColor = "Orange";
-    int index = 1;  // The second entry in the table (index 1) should be "White | Orange"
+    const char* actualMajorColor = "White";
     const char* actualMinorColor = "Blue";  // This is what the bug in the code will produce
 
-    // Assert to fail when minor color does not match expected output
-    assert(expectedMajorColor == "White" && actualMinorColor == "Orange" && "The color map output is incorrect.");
+    // Assert to fail when the minor color does not match the expected output
+    assert(strcmp(expectedMajorColor, actualMajorColor) == 0 && strcmp(expectedMinorColor, actualMinorColor) == 0 && "The color map output is incorrect.");
 
     printf("All is well (maybe!)\n");
     return 0;
