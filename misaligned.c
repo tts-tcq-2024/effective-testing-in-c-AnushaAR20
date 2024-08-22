@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <assert.h>
+#include <cstring.h>
 
 // Function to print the color map
 int printColorMap() {
